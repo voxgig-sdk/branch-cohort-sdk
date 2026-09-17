@@ -1,0 +1,70 @@
+<?php
+declare(strict_types=1);
+
+// BranchCohort SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+BranchCohortUtility::setRegistrar(function (BranchCohortUtility $u): void {
+    $u->clean = [BranchCohortClean::class, 'call'];
+    $u->done = [BranchCohortDone::class, 'call'];
+    $u->make_error = [BranchCohortMakeError::class, 'call'];
+    $u->feature_add = [BranchCohortFeatureAdd::class, 'call'];
+    $u->feature_hook = [BranchCohortFeatureHook::class, 'call'];
+    $u->feature_init = [BranchCohortFeatureInit::class, 'call'];
+    $u->fetcher = [BranchCohortFetcher::class, 'call'];
+    $u->make_fetch_def = [BranchCohortMakeFetchDef::class, 'call'];
+    $u->make_context = [BranchCohortMakeContext::class, 'call'];
+    $u->make_options = [BranchCohortMakeOptions::class, 'call'];
+    $u->make_request = [BranchCohortMakeRequest::class, 'call'];
+    $u->make_response = [BranchCohortMakeResponse::class, 'call'];
+    $u->make_result = [BranchCohortMakeResult::class, 'call'];
+    $u->make_point = [BranchCohortMakePoint::class, 'call'];
+    $u->make_spec = [BranchCohortMakeSpec::class, 'call'];
+    $u->make_url = [BranchCohortMakeUrl::class, 'call'];
+    $u->param = [BranchCohortParam::class, 'call'];
+    $u->prepare_auth = [BranchCohortPrepareAuth::class, 'call'];
+    $u->prepare_body = [BranchCohortPrepareBody::class, 'call'];
+    $u->prepare_headers = [BranchCohortPrepareHeaders::class, 'call'];
+    $u->prepare_method = [BranchCohortPrepareMethod::class, 'call'];
+    $u->prepare_params = [BranchCohortPrepareParams::class, 'call'];
+    $u->prepare_path = [BranchCohortPreparePath::class, 'call'];
+    $u->prepare_query = [BranchCohortPrepareQuery::class, 'call'];
+    $u->graphql_body = [BranchCohortGraphql::class, 'body'];
+    $u->graphql_errors = [BranchCohortGraphql::class, 'errors'];
+    $u->result_basic = [BranchCohortResultBasic::class, 'call'];
+    $u->result_body = [BranchCohortResultBody::class, 'call'];
+    $u->result_headers = [BranchCohortResultHeaders::class, 'call'];
+    $u->transform_request = [BranchCohortTransformRequest::class, 'call'];
+    $u->transform_response = [BranchCohortTransformResponse::class, 'call'];
+});

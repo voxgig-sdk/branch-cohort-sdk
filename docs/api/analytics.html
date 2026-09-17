@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Analytics | Cohort API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Cohort API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/branch-cohort-sdk">voxgig-sdk/branch-cohort-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Cohort API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/analytics.html">Analytics</a><div class="nav-sections"><a class="nav-section" href="#post-analytics">POST /analytics</a>
+<a class="nav-section" href="#get-analyticsjob_id">GET /analytics/{job_id}</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="analytics">Analytics</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-analytics"><code>/analytics</code></a></td>
+<td><code>create</code></td>
+<td>Status of aggregate export</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-analyticsjob_id"><code>/analytics/{job_id}</code></a></td>
+<td><code>load</code></td>
+<td>Status of aggregate export</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>HTTP code representing the outcome of the status request.</td>
+</tr>
+<tr>
+<td><code>cumulative</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.</td>
+</tr>
+<tr>
+<td><code>data_source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A string value representing the cohort type</td>
+</tr>
+<tr>
+<td><code>dimensions</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>An array representing dimension(s) to group by.</td>
+</tr>
+<tr>
+<td><code>enable_install_recalculation</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.</td>
+</tr>
+<tr>
+<td><code>end_date</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The end of the interval time range represented as an ISO-8601 complete date.</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error message if the query failed</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>&quot;Keys are same as dimensions.</td>
+</tr>
+<tr>
+<td><code>granularity</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The time granularity that each band value will represent.</td>
+</tr>
+<tr>
+<td><code>granularity_band_count</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>Number of time units since the cohort event to return to the user.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>job_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Unique identifier used to retrieve job status and data.</td>
+</tr>
+<tr>
+<td><code>measures</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>The cohort measures to return.</td>
+</tr>
+<tr>
+<td><code>ordered</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Order of response based on ordered_by value.</td>
+</tr>
+<tr>
+<td><code>ordered_by</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The dimension used for sorting</td>
+</tr>
+<tr>
+<td><code>per_user</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, divide each band value by the user count.</td>
+</tr>
+<tr>
+<td><code>response_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>S3 url for downloading the response data.</td>
+</tr>
+<tr>
+<td><code>start_date</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The start of the interval time range represented as an ISO-8601 complete date.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Status of the query.</td>
+</tr>
+<tr>
+<td><code>status_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>More information about the subscription's status.</td>
+</tr>
+<tr>
+<td><code>unique</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Whether or not to return unique values.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-analytics" class="operation" data-method="post"><code>POST</code> /analytics</h3>
+<p>Operation ID: <code>exportCohortAnalytics</code>.</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required. |
+| <code>limit</code> | <code>query</code> | <code>integer (int32)</code> | Yes | The maximum number of results to return. |
+| <code>format</code> | <code>query</code> | <code>enum: csv, json</code> | Yes | Format of returned data. json or csv |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cumulative</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.</td>
+</tr>
+<tr>
+<td><code>data_source</code></td>
+<td><code>enum: install_cohort, reengagement_cohort</code></td>
+<td>Yes</td>
+<td>A string value representing the cohort type</td>
+</tr>
+<tr>
+<td><code>dimensions</code></td>
+<td><code>array of enum: install_activity_attributed, install_activity_event_name, install_activity_touch_type, install_activity_touch_data_tilde_campaign_id, install_activity_touch_data_tilde_campaign, install_activity_touch_data_tilde_channel, ...</code></td>
+<td>No</td>
+<td>An array representing dimension(s) to group by. Limit is 11. See <a href="https://help.branch.io/developers-hub/docs/cohort-exports#section-dimensions">Dimensions</a> for complete list.</td>
+</tr>
+<tr>
+<td><code>enable_install_recalculation</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads. (result from <a href="https://help.branch.io/faq/docs/ios-14-faqs">iOS 14.5 privacy changes</a>).</td>
+</tr>
+<tr>
+<td><code>end_date</code></td>
+<td><code>string (date)</code></td>
+<td>Yes</td>
+<td>The end of the interval time range represented as an ISO-8601 complete date.</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>&quot;Keys are same as dimensions. Values are an array of values to match for the dimension. An object defining filters to match or disallow certain values. Example: [&quot;install_activity_touch_data_tilde_campaign&quot;: [&quot;A4G&quot;]]&quot;</td>
+</tr>
+<tr>
+<td><code>filter.app_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.customer_event_alias</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_attributed</code></td>
+<td><code>array of enum: true, false</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_brand</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_country_code</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_device_type</code></td>
+<td><code>array of enum: ANDROID_PHONE, ANDROID_TABLET, DESKTOP, IOS_PHONE, IOS_TABLET, OTHER, ...</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_environment</code></td>
+<td><code>array of enum: FULL_WEB, FULL_APP, IMESSAGE_APP, INSTANT_APP, TV_WEB, TV_APP</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_geo_country_en</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_geo_region_en</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_has_app</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_has_clicked_ad</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_has_clicked_email</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_model</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_os</code></td>
+<td><code>array of enum: AMAZON_FIRE, AMAZON_FIRE_TV, ANDROID, BADA, BEOS, BLACKBERRY, ...</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_data_platform</code></td>
+<td><code>array of enum: ANDROID_APP, ANDROID_TV, ANDROID_WEB, DESKTOP_WEB, FIRE_APP, IOS_APP, ...</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_event_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_timezone_adjusted_day</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_dollar_3p</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_plus_referring_domain</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_plus_via_features</code></td>
+<td><code>array of enum: EMAIL, ADS, DESKTOP_JOURNEYS, MOBILE_JOURNEYS, DESKTOP_DEEPVIEWS, MOBILE_DEEPVIEWS, ...</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_plus_web_format</code></td>
+<td><code>array of enum: AMP, INSTANT_ARTICLES</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_ad_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_ad_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_ad_set_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_ad_set_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_advertising_partner_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_agency</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_agency_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_campaign</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_campaign_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_channel</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_creative_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_ad_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_ad_set_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_campaign</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_keyword</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_placement</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_secondary_publisher</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_customer_sub_site_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_feature</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_journey_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_keyword</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_placement</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_secondary_publisher</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_stage</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_sub_site_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_tags</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_data_tilde_view_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.install_activity_touch_type</code></td>
+<td><code>array of enum: CLICK, IMPRESSION, WEB_TO_APP_AUTO_REDIRECT</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_attributed</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_brand</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_country_code</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_device_type</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_environment</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_geo_country_en</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_geo_region_en</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_has_app</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_has_clicked_ad</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_has_clicked_email</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_model</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_os</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_data_platform</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_event_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_timezone_adjusted_day</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_dollar_3p</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_plus_referring_domain</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_plus_via_features</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_plus_web_format</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_ad_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_ad_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_ad_set_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_ad_set_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_advertising_partner_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_agency</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_agency_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_campaign</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_campaign_id</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_channel</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_creative_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_ad_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_ad_set_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_campaign</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_keyword</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_placement</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_secondary_publisher</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_customer_sub_site_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_feature</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_journey_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_keyword</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_placement</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_secondary_publisher</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_stage</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_sub_site_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_tags</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_data_tilde_view_name</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.reengagement_activity_touch_type</code></td>
+<td><code>array of enum: CLICK, IMPRESSION, WEB_TO_APP_AUTO_REDIRECT</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_brand</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_custom_events_completed</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_device_type</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_environment</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_geo_country_code</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_has_app</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_has_clicked_ad</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_has_clicked_email</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_model</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_os</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_platform</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter.user_data_standard_events_completed</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>granularity</code></td>
+<td><code>enum: day, week, month</code></td>
+<td>No</td>
+<td>The time granularity that each band value will represent.</td>
+</tr>
+<tr>
+<td><code>granularity_band_count</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>Number of time units since the cohort event to return to the user.</td>
+</tr>
+<tr>
+<td><code>measures</code></td>
+<td><code>array of enum: OPEN, users, Retention, ARPPU, LTV, ARPU, ...</code></td>
+<td>Yes</td>
+<td>The cohort measures to return. Limit is 3. See <a href="https://help.branch.io/developers-hub/docs/cohort-exports#section-measures">Measure</a> for complete list.</td>
+</tr>
+<tr>
+<td><code>ordered</code></td>
+<td><code>enum: ascending, descending</code></td>
+<td>No</td>
+<td>Order of response based on ordered_by value.</td>
+</tr>
+<tr>
+<td><code>ordered_by</code></td>
+<td><code>enum: install_activity_attributed, install_activity_event_name, install_activity_touch_type, install_activity_touch_data_tilde_campaign_id, install_activity_touch_data_tilde_campaign, install_activity_touch_data_tilde_channel, ...</code></td>
+<td>No</td>
+<td>The dimension used for sorting</td>
+</tr>
+<tr>
+<td><code>per_user</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If true, divide each band value by the user count.</td>
+</tr>
+<tr>
+<td><code>start_date</code></td>
+<td><code>string (date)</code></td>
+<td>Yes</td>
+<td>The start of the interval time range represented as an ISO-8601 complete date.</td>
+</tr>
+<tr>
+<td><code>unique</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Whether or not to return unique values.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-status-of-aggregate-export" class="status" data-status="2xx">200: Status of aggregate export</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>HTTP code representing the outcome of the export request.</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error message if the export call fails</td>
+</tr>
+<tr>
+<td><code>job_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Unique identifier used to retrieve job status and data.</td>
+</tr>
+<tr>
+<td><code>status_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>More information about the subscription's status.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-authentication-failed" class="status" data-status="4xx">400: Authentication Failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-rate-limit-reached" class="status" data-status="4xx">429: Rate Limit Reached</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-analyticsjob_id" class="operation" data-method="get"><code>GET</code> /analytics/{job_id}</h3>
+<p>Operation ID: <code>GetExportDownloadStatus</code>.</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required. |
+| <code>job_id</code> | <code>path</code> | <code>string</code> | Yes | Unique identifier for job. Obtained from POST Export Cohort Analytics API. |
+| <code>format</code> | <code>query</code> | <code>enum: csv, json</code> | Yes | Format of returned data. json or csv |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-status-of-aggregate-export-1" class="status" data-status="2xx">200: Status of aggregate export</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>HTTP code representing the outcome of the status request. Output can be for 1xx/2xx/4xx/5xx. A 1xx will denote a QUEUED or RUNNING status.</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error message if the query failed</td>
+</tr>
+<tr>
+<td><code>response_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>S3 url for downloading the response data.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: FINISHED, QUEUED, RUNNING, ERROR</code></td>
+<td>No</td>
+<td>Status of the query.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-authentication-failed-1" class="status" data-status="4xx">400: Authentication Failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-rate-limit-reached-1" class="status" data-status="4xx">429: Rate Limit Reached</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

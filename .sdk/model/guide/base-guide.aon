@@ -1,0 +1,18 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 2
+  metrics: count: method: 2
+
+  entity: analytics: {
+    path: "/analytics": {
+      op: create: method: *POST
+    }
+    path: "/analytics/{job_id}": {
+      rename: param: "job_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+}

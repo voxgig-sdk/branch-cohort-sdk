@@ -1,0 +1,40 @@
+# BasicAnalyticsFlow
+
+main: kit: flow: BasicAnalyticsFlow:
+{
+  entity: "analytics",
+  kind: "basic",
+  name: "BasicAnalyticsFlow",
+  step: [
+    {
+      input: {
+        ref: "analytics_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "analytics_ref01",
+        srcdatavar: "analytics_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "analytics01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-analytics_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAnalyticsFlow"
+}
