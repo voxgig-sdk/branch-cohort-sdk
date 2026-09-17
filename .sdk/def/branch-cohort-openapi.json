@@ -1,0 +1,1483 @@
+{
+ "openapi": "3.0.0",
+ "info": {
+  "title": "Cohort API",
+  "description": "The Cohort API allows you to programmatically query and export Cohort analytics",
+  "termsOfService": "https://branch.io/policies/",
+  "contact": {
+   "name": "Branch Support",
+   "url": "https://help.branch.io/using-branch/page/submit-a-ticket",
+   "email": "support@branch.io"
+  },
+  "version": "1.0.1"
+ },
+ "servers": [
+  {
+   "url": "https://api2.branch.io/v2"
+  }
+ ],
+ "paths": {
+  "/analytics": {
+   "post": {
+    "tags": [
+     "Cohort API"
+    ],
+    "summary": "Export Cohort Analytics",
+    "description": "This endpoint provisions querying and exporting Cohort analytics\n",
+    "operationId": "exportCohortAnalytics",
+    "parameters": [
+     {
+      "name": "app_id",
+      "in": "query",
+      "description": "app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required.",
+      "required": "true",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "description": "The maximum number of results to return.",
+      "required": "false",
+      "style": "form",
+      "explode": "true",
+      "schema": {
+       "maximum": "50000",
+       "minimum": "1",
+       "type": "integer",
+       "format": "int32"
+      }
+     },
+     {
+      "name": "format",
+      "in": "query",
+      "description": "Format of returned data. json or csv",
+      "required": "false",
+      "style": "form",
+      "explode": "true",
+      "schema": {
+       "type": "string",
+       "default": "csv",
+       "enum": [
+        "csv",
+        "json"
+       ]
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/cohort_request_body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Status of aggregate export",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/cohort_200_response_body"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Authentication Failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Authentication failed !\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/analytics/{job_id}": {
+   "get": {
+    "tags": [
+     "Cohort API"
+    ],
+    "summary": "Get Export Download Status",
+    "description": "This endpoint provisions querying and exporting Cohort analytics\n",
+    "operationId": "GetExportDownloadStatus",
+    "parameters": [
+     {
+      "name": "app_id",
+      "in": "query",
+      "description": "app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required.",
+      "required": "true",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "job_id",
+      "in": "path",
+      "description": "Unique identifier for job. Obtained from POST Export Cohort Analytics API.",
+      "required": "true",
+      "schema": {
+       "type": "string",
+       "example": "0000-XXxx"
+      }
+     },
+     {
+      "name": "format",
+      "in": "query",
+      "description": "Format of returned data. json or csv",
+      "required": "false",
+      "style": "form",
+      "explode": "true",
+      "schema": {
+       "type": "string",
+       "default": "csv",
+       "enum": [
+        "csv",
+        "json"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Status of aggregate export",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/cohort_export_download_200_response_body"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Authentication Failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Authentication failed !\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "cohort_request_body": {
+    "type": "object",
+    "description": "Cohort Request Body",
+    "properties": {
+     "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The start of the interval time range represented as an ISO-8601 complete date.",
+      "example": "2023-05-15"
+     },
+     "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The end of the interval time range represented as an ISO-8601 complete date.",
+      "example": "2023-05-16"
+     },
+     "data_source": {
+      "type": "string",
+      "enum": [
+       "install_cohort",
+       "reengagement_cohort"
+      ],
+      "default": "install_cohort",
+      "example": "install_cohort",
+      "description": "A string value representing the cohort type"
+     },
+     "measures": {
+      "maxItems": "3",
+      "minItems": "1",
+      "type": "array",
+      "description": "The cohort measures to return. Limit is 3. See [Measure](https://help.branch.io/developers-hub/docs/cohort-exports#section-measures) for complete list.\n",
+      "default": [
+       "OPEN"
+      ],
+      "example": [
+       "OPEN"
+      ],
+      "items": {
+       "type": "string",
+       "enum": [
+        "OPEN",
+        "users",
+        "Retention",
+        "ARPPU",
+        "LTV",
+        "ARPU",
+        "revenue",
+        "PURCHASE",
+        "ADD_TO_CART",
+        "ADD_TO_WISHLIST",
+        "VIEW_CART",
+        "INITIATE_PURCHASE",
+        "ADD_PAYMENT_INFO",
+        "SPEND_CREDITS",
+        "RESERVE",
+        "CLICK_AD",
+        "VIEW_AD",
+        "SEARCH",
+        "VIEW_ITEM",
+        "VIEW_ITEMS",
+        "RATE",
+        "SHARE",
+        "COMPLETE_REGISTRATION",
+        "COMPLETE_TUTORIAL",
+        "ACHIEVE_LEVEL",
+        "UNLOCK_ACHIEVEMENT",
+        "INVITE",
+        "LOGIN",
+        "SUBSCRIBE",
+        "START_TRIAL",
+        "cost",
+        "GROSS_PROFIT",
+        "ROI",
+        "ROAS",
+        "eCPA"
+       ]
+      }
+     },
+     "granularity_band_count": {
+      "type": "integer",
+      "description": "Number of time units since the cohort event to return to the user.",
+      "example": "7",
+      "default": "7"
+     },
+     "dimensions": {
+      "maxItems": "11",
+      "minItems": "1",
+      "type": "array",
+      "description": "An array representing dimension(s) to group by. Limit is 11. See [Dimensions](https://help.branch.io/developers-hub/docs/cohort-exports#section-dimensions) for complete list.\n",
+      "default": [
+       "install_activity_touch_data_tilde_campaign"
+      ],
+      "example": [
+       "install_activity_touch_data_tilde_campaign"
+      ],
+      "items": {
+       "type": "string",
+       "enum": [
+        "install_activity_attributed",
+        "install_activity_event_name",
+        "install_activity_touch_type",
+        "install_activity_touch_data_tilde_campaign_id",
+        "install_activity_touch_data_tilde_campaign",
+        "install_activity_touch_data_tilde_channel",
+        "install_activity_touch_data_tilde_feature",
+        "install_activity_touch_data_tilde_stage",
+        "install_activity_touch_data_tilde_tags",
+        "install_activity_touch_data_tilde_advertising_partner_name",
+        "install_activity_touch_data_dollar_3p",
+        "install_activity_touch_data_tilde_secondary_publisher",
+        "install_activity_touch_data_tilde_creative_name",
+        "install_activity_touch_data_tilde_ad_id",
+        "install_activity_touch_data_tilde_ad_set_id",
+        "install_activity_touch_data_tilde_ad_set_name",
+        "install_activity_touch_data_tilde_ad_name",
+        "install_activity_touch_data_tilde_keyword",
+        "install_activity_touch_data_tilde_journey_name",
+        "install_activity_touch_data_tilde_view_name",
+        "install_activity_touch_data_plus_referring_domain",
+        "install_activity_touch_data_plus_via_features",
+        "install_activity_touch_data_plus_web_format",
+        "install_activity_data_os",
+        "install_activity_data_environment",
+        "install_activity_data_platform",
+        "install_activity_data_country_code",
+        "install_activity_data_has_app",
+        "install_activity_data_has_clicked_email",
+        "install_activity_data_has_clicked_ad",
+        "install_activity_timezone_adjusted_day",
+        "install_activity_touch_data_tilde_placement",
+        "install_activity_data_device_type",
+        "install_activity_touch_data_tilde_sub_site_name",
+        "install_activity_data_brand",
+        "install_activity_data_geo_country_en",
+        "install_activity_data_model",
+        "install_activity_data_geo_region_en",
+        "install_activity_touch_data_tilde_customer_secondary_publisher",
+        "install_activity_touch_data_tilde_customer_placement",
+        "install_activity_touch_data_tilde_customer_sub_site_name",
+        "install_activity_touch_data_tilde_customer_campaign",
+        "install_activity_touch_data_tilde_customer_ad_set_name",
+        "install_activity_touch_data_tilde_customer_ad_name",
+        "install_activity_touch_data_tilde_customer_keyword",
+        "install_activity_touch_data_tilde_agency_id",
+        "install_activity_touch_data_tilde_agency",
+        "customer_event_alias",
+        "reengagement_activity_attributed",
+        "reengagement_activity_event_name",
+        "reengagement_activity_touch_type",
+        "reengagement_activity_touch_data_tilde_campaign_id",
+        "reengagement_activity_touch_data_tilde_campaign",
+        "reengagement_activity_touch_data_tilde_channel",
+        "reengagement_activity_touch_data_tilde_feature",
+        "reengagement_activity_touch_data_tilde_stage",
+        "reengagement_activity_touch_data_tilde_tags",
+        "reengagement_activity_touch_data_tilde_advertising_partner_name",
+        "reengagement_activity_touch_data_dollar_3p",
+        "reengagement_activity_touch_data_tilde_secondary_publisher",
+        "reengagement_activity_touch_data_tilde_creative_name",
+        "reengagement_activity_touch_data_tilde_ad_id",
+        "reengagement_activity_touch_data_tilde_ad_set_id",
+        "reengagement_activity_touch_data_tilde_ad_set_name",
+        "reengagement_activity_touch_data_tilde_ad_name",
+        "reengagement_activity_touch_data_tilde_keyword",
+        "reengagement_activity_touch_data_tilde_journey_name",
+        "reengagement_activity_touch_data_tilde_view_name",
+        "reengagement_activity_touch_data_plus_referring_domain",
+        "reengagement_activity_touch_data_plus_via_features",
+        "reengagement_activity_touch_data_plus_web_format",
+        "reengagement_activity_data_os",
+        "reengagement_activity_data_environment",
+        "reengagement_activity_data_platform",
+        "reengagement_activity_data_country_code",
+        "reengagement_activity_data_has_app",
+        "reengagement_activity_data_has_clicked_email",
+        "reengagement_activity_data_has_clicked_ad",
+        "reengagement_activity_timezone_adjusted_day",
+        "reengagement_activity_touch_data_tilde_placement",
+        "reengagement_activity_data_device_type",
+        "reengagement_activity_touch_data_tilde_sub_site_name",
+        "reengagement_activity_data_brand",
+        "reengagement_activity_data_geo_country_en",
+        "reengagement_activity_data_model",
+        "reengagement_activity_data_geo_region_en",
+        "reengagement_activity_touch_data_tilde_customer_secondary_publisher",
+        "reengagement_activity_touch_data_tilde_customer_placement",
+        "reengagement_activity_touch_data_tilde_customer_sub_site_name",
+        "reengagement_activity_touch_data_tilde_customer_campaign",
+        "reengagement_activity_touch_data_tilde_customer_ad_set_name",
+        "reengagement_activity_touch_data_tilde_customer_ad_name",
+        "reengagement_activity_touch_data_tilde_customer_keyword",
+        "reengagement_activity_touch_data_tilde_agency_id",
+        "reengagement_activity_touch_data_tilde_agency",
+        "user_data_platform",
+        "user_data_environment",
+        "user_data_geo_country_code",
+        "user_data_os",
+        "user_data_has_app",
+        "user_data_standard_events_completed",
+        "user_data_custom_events_completed",
+        "user_data_has_clicked_ad",
+        "user_data_has_clicked_email",
+        "user_data_brand",
+        "user_data_device_type",
+        "user_data_model",
+        "app_id"
+       ]
+      }
+     },
+     "filter": {
+      "$ref": "#/components/schemas/filterBodyDictionary"
+     },
+     "ordered": {
+      "type": "string",
+      "description": "Order of response based on ordered_by value.",
+      "enum": [
+       "ascending",
+       "descending"
+      ],
+      "example": "descending",
+      "default": "descending"
+     },
+     "ordered_by": {
+      "type": "string",
+      "description": "The dimension used for sorting",
+      "enum": [
+       "install_activity_attributed",
+       "install_activity_event_name",
+       "install_activity_touch_type",
+       "install_activity_touch_data_tilde_campaign_id",
+       "install_activity_touch_data_tilde_campaign",
+       "install_activity_touch_data_tilde_channel",
+       "install_activity_touch_data_tilde_feature",
+       "install_activity_touch_data_tilde_stage",
+       "install_activity_touch_data_tilde_tags",
+       "install_activity_touch_data_tilde_advertising_partner_name",
+       "install_activity_touch_data_dollar_3p",
+       "install_activity_touch_data_tilde_secondary_publisher",
+       "install_activity_touch_data_tilde_creative_name",
+       "install_activity_touch_data_tilde_ad_id",
+       "install_activity_touch_data_tilde_ad_set_id",
+       "install_activity_touch_data_tilde_ad_set_name",
+       "install_activity_touch_data_tilde_ad_name",
+       "install_activity_touch_data_tilde_keyword",
+       "install_activity_touch_data_tilde_journey_name",
+       "install_activity_touch_data_tilde_view_name",
+       "install_activity_touch_data_plus_referring_domain",
+       "install_activity_touch_data_plus_via_features",
+       "install_activity_touch_data_plus_web_format",
+       "install_activity_data_os",
+       "install_activity_data_environment",
+       "install_activity_data_platform",
+       "install_activity_data_country_code",
+       "install_activity_data_has_app",
+       "install_activity_data_has_clicked_email",
+       "install_activity_data_has_clicked_ad",
+       "install_activity_timezone_adjusted_day",
+       "install_activity_touch_data_tilde_placement",
+       "install_activity_data_device_type",
+       "install_activity_touch_data_tilde_sub_site_name",
+       "install_activity_data_brand",
+       "install_activity_data_geo_country_en",
+       "install_activity_data_model",
+       "install_activity_data_geo_region_en",
+       "install_activity_touch_data_tilde_customer_secondary_publisher",
+       "install_activity_touch_data_tilde_customer_placement",
+       "install_activity_touch_data_tilde_customer_sub_site_name",
+       "install_activity_touch_data_tilde_customer_campaign",
+       "install_activity_touch_data_tilde_customer_ad_set_name",
+       "install_activity_touch_data_tilde_customer_ad_name",
+       "install_activity_touch_data_tilde_customer_keyword",
+       "install_activity_touch_data_tilde_agency_id",
+       "install_activity_touch_data_tilde_agency",
+       "customer_event_alias",
+       "reengagement_activity_attributed",
+       "reengagement_activity_event_name",
+       "reengagement_activity_touch_type",
+       "reengagement_activity_touch_data_tilde_campaign_id",
+       "reengagement_activity_touch_data_tilde_campaign",
+       "reengagement_activity_touch_data_tilde_channel",
+       "reengagement_activity_touch_data_tilde_feature",
+       "reengagement_activity_touch_data_tilde_stage",
+       "reengagement_activity_touch_data_tilde_tags",
+       "reengagement_activity_touch_data_tilde_advertising_partner_name",
+       "reengagement_activity_touch_data_dollar_3p",
+       "reengagement_activity_touch_data_tilde_secondary_publisher",
+       "reengagement_activity_touch_data_tilde_creative_name",
+       "reengagement_activity_touch_data_tilde_ad_id",
+       "reengagement_activity_touch_data_tilde_ad_set_id",
+       "reengagement_activity_touch_data_tilde_ad_set_name",
+       "reengagement_activity_touch_data_tilde_ad_name",
+       "reengagement_activity_touch_data_tilde_keyword",
+       "reengagement_activity_touch_data_tilde_journey_name",
+       "reengagement_activity_touch_data_tilde_view_name",
+       "reengagement_activity_touch_data_plus_referring_domain",
+       "reengagement_activity_touch_data_plus_via_features",
+       "reengagement_activity_touch_data_plus_web_format",
+       "reengagement_activity_data_os",
+       "reengagement_activity_data_environment",
+       "reengagement_activity_data_platform",
+       "reengagement_activity_data_country_code",
+       "reengagement_activity_data_has_app",
+       "reengagement_activity_data_has_clicked_email",
+       "reengagement_activity_data_has_clicked_ad",
+       "reengagement_activity_timezone_adjusted_day",
+       "reengagement_activity_touch_data_tilde_placement",
+       "reengagement_activity_data_device_type",
+       "reengagement_activity_touch_data_tilde_sub_site_name",
+       "reengagement_activity_data_brand",
+       "reengagement_activity_data_geo_country_en",
+       "reengagement_activity_data_model",
+       "reengagement_activity_data_geo_region_en",
+       "reengagement_activity_touch_data_tilde_customer_secondary_publisher",
+       "reengagement_activity_touch_data_tilde_customer_placement",
+       "reengagement_activity_touch_data_tilde_customer_sub_site_name",
+       "reengagement_activity_touch_data_tilde_customer_campaign",
+       "reengagement_activity_touch_data_tilde_customer_ad_set_name",
+       "reengagement_activity_touch_data_tilde_customer_ad_name",
+       "reengagement_activity_touch_data_tilde_customer_keyword",
+       "reengagement_activity_touch_data_tilde_agency_id",
+       "reengagement_activity_touch_data_tilde_agency",
+       "user_data_platform",
+       "user_data_environment",
+       "user_data_geo_country_code",
+       "user_data_os",
+       "user_data_has_app",
+       "user_data_standard_events_completed",
+       "user_data_custom_events_completed",
+       "user_data_has_clicked_ad",
+       "user_data_has_clicked_email",
+       "user_data_brand",
+       "user_data_device_type",
+       "user_data_model",
+       "app_id"
+      ],
+      "example": "install_activity_touch_data_tilde_campaign",
+      "default": "install_activity_touch_data_tilde_campaign"
+     },
+     "unique": {
+      "type": "boolean",
+      "description": "Whether or not to return unique values.",
+      "default": "false"
+     },
+     "cumulative": {
+      "type": "boolean",
+      "description": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
+      "default": "false"
+     },
+     "per_user": {
+      "type": "boolean",
+      "description": "If true, divide each band value by the user count.",
+      "default": "false"
+     },
+     "granularity": {
+      "type": "string",
+      "description": "The time granularity that each band value will represent.",
+      "enum": [
+       "day",
+       "week",
+       "month"
+      ],
+      "example": "day",
+      "default": "day"
+     },
+     "enable_install_recalculation": {
+      "type": "boolean",
+      "description": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads. (result from [iOS 14.5 privacy changes](https://help.branch.io/faq/docs/ios-14-faqs)).",
+      "default": "true"
+     }
+    },
+    "required": [
+     "start_date",
+     "end_date",
+     "data_source",
+     "measures",
+     "granularity_band_count"
+    ]
+   },
+   "cohort_200_response_body": {
+    "type": "object",
+    "properties": {
+     "job_id": {
+      "type": "string",
+      "example": "0000-XXxx",
+      "description": "Unique identifier used to retrieve job status and data."
+     },
+     "code": {
+      "type": "string",
+      "description": "HTTP code representing the outcome of the export request.\n",
+      "example": "200"
+     },
+     "status_url": {
+      "type": "string",
+      "example": "https://api2.branch.io/v2/analytics/{UNIQUE_ALPHANUMERICAL_STATUS_PATH_HERE}",
+      "description": "More information about the subscription's status."
+     },
+     "error_message": {
+      "type": "string",
+      "example": "N/A",
+      "description": "Error message if the export call fails\n"
+     }
+    }
+   },
+   "inline_response_400": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_400_error"
+     }
+    }
+   },
+   "filterBodyDictionary": {
+    "type": "object",
+    "description": "\"Keys are same as dimensions. Values are an array of values to match for the dimension. An object defining filters to match or disallow certain values. Example: [\"install_activity_touch_data_tilde_campaign\": [\"A4G\"]]\"\n",
+    "additionalProperties": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "example": {
+     "install_activity_touch_data_tilde_campaign": [
+      "A4G"
+     ]
+    },
+    "properties": {
+     "app_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_attributed": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "example": "true",
+       "enum": [
+        "true",
+        "false"
+       ]
+      }
+     },
+     "install_activity_event_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_type": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "CLICK",
+        "IMPRESSION",
+        "WEB_TO_APP_AUTO_REDIRECT"
+       ]
+      }
+     },
+     "install_activity_touch_data_tilde_campaign_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_campaign": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_channel": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_feature": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_stage": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_tags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_advertising_partner_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_dollar_3p": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_secondary_publisher": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_creative_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_ad_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_ad_set_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_ad_set_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_ad_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_keyword": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_journey_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_view_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_plus_referring_domain": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_plus_via_features": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "EMAIL",
+        "ADS",
+        "DESKTOP_JOURNEYS",
+        "MOBILE_JOURNEYS",
+        "DESKTOP_DEEPVIEWS",
+        "MOBILE_DEEPVIEWS",
+        "SOCIAL",
+        "QUICK_LINKS"
+       ]
+      }
+     },
+     "install_activity_touch_data_plus_web_format": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "AMP",
+        "INSTANT_ARTICLES"
+       ]
+      }
+     },
+     "install_activity_data_os": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "AMAZON_FIRE",
+        "AMAZON_FIRE_TV",
+        "ANDROID",
+        "BADA",
+        "BEOS",
+        "BLACKBERRY",
+        "BSD",
+        "CENTOS",
+        "CHROMIUM_OS",
+        "DEBIAN",
+        "DRAGONFLY",
+        "FEDORA",
+        "FIREFOX_OS",
+        "FREEBSD",
+        "GENTOO",
+        "GNU",
+        "IOS",
+        "JOLI",
+        "KUBUNTU",
+        "LINUX",
+        "MAC_OS",
+        "MANDRIVA",
+        "MEEGO",
+        "MINT",
+        "NETBSD",
+        "NINTENDO",
+        "OPENBSD",
+        "OS_2",
+        "OTHER",
+        "PLAYSTATION",
+        "RIM_TABLET_OS",
+        "ROBOTS",
+        "SAILFISH",
+        "SLACKWARE",
+        "SOLARIS",
+        "SUSE",
+        "SYMBIAN",
+        "TIZEN",
+        "TVOS",
+        "UBUNTU",
+        "UNIX",
+        "WINDOWS",
+        "WINDOWS_PHONE",
+        "ZENWALK",
+        "ROKU",
+        "SAMSUNG",
+        "ANDROID_TV",
+        "LG",
+        "PANASONIC"
+       ]
+      }
+     },
+     "install_activity_data_environment": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "FULL_WEB",
+        "FULL_APP",
+        "IMESSAGE_APP",
+        "INSTANT_APP",
+        "TV_WEB",
+        "TV_APP"
+       ]
+      }
+     },
+     "install_activity_data_platform": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "ANDROID_APP",
+        "ANDROID_TV",
+        "ANDROID_WEB",
+        "DESKTOP_WEB",
+        "FIRE_APP",
+        "IOS_APP",
+        "IOS_TV",
+        "IOS_WEB",
+        "MAC_APP",
+        "OTHER",
+        "ROBOT",
+        "WINDOWS_APP",
+        "DESKTOP_APP",
+        "TV_WEB",
+        "TV_APP"
+       ]
+      }
+     },
+     "install_activity_data_country_code": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_has_app": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_has_clicked_email": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_has_clicked_ad": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_timezone_adjusted_day": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_placement": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_device_type": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "ANDROID_PHONE",
+        "ANDROID_TABLET",
+        "DESKTOP",
+        "IOS_PHONE",
+        "IOS_TABLET",
+        "OTHER",
+        "TV_OS",
+        "UNKNOWN",
+        "WINDOWS_PHONE",
+        "WINDOWS_TABLET"
+       ]
+      }
+     },
+     "install_activity_touch_data_tilde_sub_site_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_brand": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_geo_country_en": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_model": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_data_geo_region_en": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_secondary_publisher": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_placement": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_sub_site_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_campaign": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_ad_set_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_ad_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_customer_keyword": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_agency_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "install_activity_touch_data_tilde_agency": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "customer_event_alias": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_attributed": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_event_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_type": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "CLICK",
+        "IMPRESSION",
+        "WEB_TO_APP_AUTO_REDIRECT"
+       ]
+      }
+     },
+     "reengagement_activity_touch_data_tilde_campaign_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_campaign": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_channel": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_feature": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_stage": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_tags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_advertising_partner_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_dollar_3p": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_secondary_publisher": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_creative_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_ad_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_ad_set_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_ad_set_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_ad_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_keyword": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_journey_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_view_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_plus_referring_domain": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_plus_via_features": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_plus_web_format": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_os": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_environment": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_platform": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_country_code": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_has_app": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_has_clicked_email": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_has_clicked_ad": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_timezone_adjusted_day": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_placement": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_device_type": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_sub_site_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_brand": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_geo_country_en": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_model": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_data_geo_region_en": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_secondary_publisher": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_placement": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_sub_site_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_campaign": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_ad_set_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_ad_name": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_customer_keyword": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_agency_id": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reengagement_activity_touch_data_tilde_agency": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_platform": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_environment": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_geo_country_code": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_os": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_has_app": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_standard_events_completed": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_custom_events_completed": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_has_clicked_ad": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_has_clicked_email": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_brand": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_device_type": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "user_data_model": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "inline_response_400_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Authentication failed !"
+     },
+     "code": {
+      "type": "integer",
+      "example": "400"
+     }
+    }
+   },
+   "cohort_export_download_200_response_body": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "example": "FINISHED",
+      "description": "Status of the query.",
+      "enum": [
+       "FINISHED",
+       "QUEUED",
+       "RUNNING",
+       "ERROR"
+      ]
+     },
+     "code": {
+      "type": "string",
+      "example": "200",
+      "description": "HTTP code representing the outcome of the status request. Output can be for 1xx/2xx/4xx/5xx.  A 1xx will denote a QUEUED or RUNNING status."
+     },
+     "response_url": {
+      "type": "string",
+      "example": "https://api2.branch.io/v2/analytics/{UNIQUE_ALPHANUMERICAL_STATUS_PATH_HERE}",
+      "description": "S3 url for downloading the response data."
+     },
+     "error_message": {
+      "type": "string",
+      "example": "N/A",
+      "description": "Error message if the query failed"
+     }
+    }
+   }
+  }
+ }
+}
