@@ -161,114 +161,135 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "code",
-						"short": "HTTP code representing the outcome of the status request.",
+						"title": "Code",
 						"type": "`$STRING`",
+						"short": "HTTP code representing the outcome of the status request.",
 					},
 					map[string]any{
 						"name": "cumulative",
-						"short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
+						"title": "Cumulative",
 						"type": "`$BOOLEAN`",
+						"short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
 					},
 					map[string]any{
 						"name": "data_source",
+						"title": "Data Source",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "A string value representing the cohort type",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dimensions",
-						"short": "An array representing dimension(s) to group by.",
+						"title": "Dimensions",
 						"type": "`$ARRAY`",
+						"short": "An array representing dimension(s) to group by.",
 					},
 					map[string]any{
 						"name": "enable_install_recalculation",
-						"short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.",
+						"title": "Enable Install Recalculation",
 						"type": "`$BOOLEAN`",
+						"short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.",
 					},
 					map[string]any{
-						"format": "date",
 						"name": "end_date",
+						"title": "End Date",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "The end of the interval time range represented as an ISO-8601 complete date.",
-						"type": "`$STRING`",
+						"format": "date",
 					},
 					map[string]any{
 						"name": "error_message",
-						"short": "Error message if the query failed",
+						"title": "Error Message",
 						"type": "`$STRING`",
+						"short": "Error message if the query failed",
 					},
 					map[string]any{
 						"name": "filter",
-						"short": "\"Keys are same as dimensions.",
+						"title": "Filter",
 						"type": "`$OBJECT`",
+						"short": "\"Keys are same as dimensions.",
 					},
 					map[string]any{
 						"name": "granularity",
-						"short": "The time granularity that each band value will represent.",
+						"title": "Granularity",
 						"type": "`$STRING`",
+						"short": "The time granularity that each band value will represent.",
 					},
 					map[string]any{
 						"name": "granularity_band_count",
+						"title": "Granularity Band Count",
+						"type": "`$INTEGER`",
 						"req": true,
 						"short": "Number of time units since the cohort event to return to the user.",
-						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "id",
+						"title": "Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "job_id",
-						"short": "Unique identifier used to retrieve job status and data.",
+						"title": "Job Id",
 						"type": "`$STRING`",
+						"short": "Unique identifier used to retrieve job status and data.",
 					},
 					map[string]any{
 						"name": "measures",
+						"title": "Measures",
+						"type": "`$ARRAY`",
 						"req": true,
 						"short": "The cohort measures to return.",
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "ordered",
-						"short": "Order of response based on ordered_by value.",
+						"title": "Ordered",
 						"type": "`$STRING`",
+						"short": "Order of response based on ordered_by value.",
 					},
 					map[string]any{
 						"name": "ordered_by",
-						"short": "The dimension used for sorting",
+						"title": "Ordered By",
 						"type": "`$STRING`",
+						"short": "The dimension used for sorting",
 					},
 					map[string]any{
 						"name": "per_user",
-						"short": "If true, divide each band value by the user count.",
+						"title": "Per User",
 						"type": "`$BOOLEAN`",
+						"short": "If true, divide each band value by the user count.",
 					},
 					map[string]any{
 						"name": "response_url",
-						"short": "S3 url for downloading the response data.",
+						"title": "Response Url",
 						"type": "`$STRING`",
+						"short": "S3 url for downloading the response data.",
 					},
 					map[string]any{
-						"format": "date",
 						"name": "start_date",
+						"title": "Start Date",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "The start of the interval time range represented as an ISO-8601 complete date.",
-						"type": "`$STRING`",
+						"format": "date",
 					},
 					map[string]any{
 						"name": "status",
-						"short": "Status of the query.",
+						"title": "Status",
 						"type": "`$STRING`",
+						"short": "Status of the query.",
 					},
 					map[string]any{
 						"name": "status_url",
-						"short": "More information about the subscription's status.",
+						"title": "Status Url",
 						"type": "`$STRING`",
+						"short": "More information about the subscription's status.",
 					},
 					map[string]any{
 						"name": "unique",
-						"short": "Whether or not to return unique values.",
+						"title": "Unique",
 						"type": "`$BOOLEAN`",
+						"short": "Whether or not to return unique values.",
 					},
 				},
 				"id": map[string]any{
@@ -282,38 +303,46 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "app_id",
-											"orig": "app_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"example": "csv",
-											"kind": "query",
-											"name": "format",
-											"orig": "format",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "limit",
-											"orig": "limit",
-											"reqd": true,
-											"type": "`$INTEGER`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/analytics",
 								"segments": []any{
 									map[string]any{
 										"lit": "analytics",
+									},
+								},
+								"parts": []any{
+									"analytics",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "app_id",
+											"orig": "app_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "format",
+											"orig": "format",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+											"example": "csv",
+										},
+										map[string]any{
+											"name": "limit",
+											"orig": "limit",
+											"type": "`$INTEGER`",
+											"kind": "query",
+											"reqd": true,
+										},
 									},
 								},
 								"select": map[string]any{
@@ -323,13 +352,6 @@ func MakeConfig() map[string]any {
 										"limit",
 									},
 								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"parts": []any{
-									"analytics",
-								},
 							},
 						},
 					},
@@ -338,43 +360,9 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"example": "0000-XXxx",
-											"kind": "param",
-											"name": "id",
-											"orig": "job_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "app_id",
-											"orig": "app_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"example": "csv",
-											"kind": "query",
-											"name": "format",
-											"orig": "format",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/analytics/{job_id}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"job_id": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "analytics",
@@ -383,20 +371,54 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"app_id",
-										"format",
-										"id",
+								"parts": []any{
+									"analytics",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"job_id": "id",
 									},
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"analytics",
-									"{id}",
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "job_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "0000-XXxx",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "app_id",
+											"orig": "app_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "format",
+											"orig": "format",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+											"example": "csv",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"app_id",
+										"format",
+										"id",
+									},
 								},
 							},
 						},

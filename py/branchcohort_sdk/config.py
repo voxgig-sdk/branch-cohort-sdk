@@ -186,114 +186,135 @@ def make_config():
         "fields": [
           {
             "name": "code",
-            "short": "HTTP code representing the outcome of the status request.",
+            "title": "Code",
             "type": "`$STRING`",
+            "short": "HTTP code representing the outcome of the status request.",
           },
           {
             "name": "cumulative",
-            "short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
+            "title": "Cumulative",
             "type": "`$BOOLEAN`",
+            "short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
           },
           {
             "name": "data_source",
+            "title": "Data Source",
+            "type": "`$STRING`",
             "req": True,
             "short": "A string value representing the cohort type",
-            "type": "`$STRING`",
           },
           {
             "name": "dimensions",
-            "short": "An array representing dimension(s) to group by.",
+            "title": "Dimensions",
             "type": "`$ARRAY`",
+            "short": "An array representing dimension(s) to group by.",
           },
           {
             "name": "enable_install_recalculation",
-            "short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.",
+            "title": "Enable Install Recalculation",
             "type": "`$BOOLEAN`",
+            "short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.",
           },
           {
-            "format": "date",
             "name": "end_date",
+            "title": "End Date",
+            "type": "`$STRING`",
             "req": True,
             "short": "The end of the interval time range represented as an ISO-8601 complete date.",
-            "type": "`$STRING`",
+            "format": "date",
           },
           {
             "name": "error_message",
-            "short": "Error message if the query failed",
+            "title": "Error Message",
             "type": "`$STRING`",
+            "short": "Error message if the query failed",
           },
           {
             "name": "filter",
-            "short": "\"Keys are same as dimensions.",
+            "title": "Filter",
             "type": "`$OBJECT`",
+            "short": "\"Keys are same as dimensions.",
           },
           {
             "name": "granularity",
-            "short": "The time granularity that each band value will represent.",
+            "title": "Granularity",
             "type": "`$STRING`",
+            "short": "The time granularity that each band value will represent.",
           },
           {
             "name": "granularity_band_count",
+            "title": "Granularity Band Count",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Number of time units since the cohort event to return to the user.",
-            "type": "`$INTEGER`",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "job_id",
-            "short": "Unique identifier used to retrieve job status and data.",
+            "title": "Job Id",
             "type": "`$STRING`",
+            "short": "Unique identifier used to retrieve job status and data.",
           },
           {
             "name": "measures",
+            "title": "Measures",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "The cohort measures to return.",
-            "type": "`$ARRAY`",
           },
           {
             "name": "ordered",
-            "short": "Order of response based on ordered_by value.",
+            "title": "Ordered",
             "type": "`$STRING`",
+            "short": "Order of response based on ordered_by value.",
           },
           {
             "name": "ordered_by",
-            "short": "The dimension used for sorting",
+            "title": "Ordered By",
             "type": "`$STRING`",
+            "short": "The dimension used for sorting",
           },
           {
             "name": "per_user",
-            "short": "If true, divide each band value by the user count.",
+            "title": "Per User",
             "type": "`$BOOLEAN`",
+            "short": "If true, divide each band value by the user count.",
           },
           {
             "name": "response_url",
-            "short": "S3 url for downloading the response data.",
+            "title": "Response Url",
             "type": "`$STRING`",
+            "short": "S3 url for downloading the response data.",
           },
           {
-            "format": "date",
             "name": "start_date",
+            "title": "Start Date",
+            "type": "`$STRING`",
             "req": True,
             "short": "The start of the interval time range represented as an ISO-8601 complete date.",
-            "type": "`$STRING`",
+            "format": "date",
           },
           {
             "name": "status",
-            "short": "Status of the query.",
+            "title": "Status",
             "type": "`$STRING`",
+            "short": "Status of the query.",
           },
           {
             "name": "status_url",
-            "short": "More information about the subscription's status.",
+            "title": "Status Url",
             "type": "`$STRING`",
+            "short": "More information about the subscription's status.",
           },
           {
             "name": "unique",
-            "short": "Whether or not to return unique values.",
+            "title": "Unique",
             "type": "`$BOOLEAN`",
+            "short": "Whether or not to return unique values.",
           },
         ],
         "id": {
@@ -307,32 +328,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "app_id",
-                      "orig": "app_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "example": "csv",
-                      "kind": "query",
-                      "name": "format",
-                      "orig": "format",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "limit",
-                      "orig": "limit",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/analytics",
@@ -341,6 +336,40 @@ def make_config():
                     "lit": "analytics",
                   },
                 ],
+                "parts": [
+                  "analytics",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "app_id",
+                      "orig": "app_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "format",
+                      "orig": "format",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                      "example": "csv",
+                    },
+                    {
+                      "name": "limit",
+                      "orig": "limit",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "app_id",
@@ -348,13 +377,6 @@ def make_config():
                     "limit",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "analytics",
-                ],
               },
             ],
           },
@@ -363,43 +385,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "example": "0000-XXxx",
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "job_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "app_id",
-                      "orig": "app_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "example": "csv",
-                      "kind": "query",
-                      "name": "format",
-                      "orig": "format",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/analytics/{job_id}",
-                "rename": {
-                  "param": {
-                    "job_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "analytics",
@@ -408,6 +396,48 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "analytics",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "job_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "job_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "0000-XXxx",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "app_id",
+                      "orig": "app_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "format",
+                      "orig": "format",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                      "example": "csv",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "app_id",
@@ -415,14 +445,6 @@ def make_config():
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "analytics",
-                  "{id}",
-                ],
               },
             ],
           },

@@ -20,14 +20,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="analytics">Analytics</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="analytics">Analytics</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -54,6 +54,46 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">analytics, err := client.Analytics(nil).Load(map[string]any{&quot;id&quot;: &quot;example_id&quot;, &quot;app_id&quot;: &quot;example&quot;, &quot;format&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(analytics)
+created, err := client.Analytics(nil).Create(map[string]any{&quot;app_id&quot;: &quot;example&quot;, &quot;format&quot;: &quot;example&quot;, &quot;limit&quot;: 1, &quot;data_source&quot;: &quot;example&quot;, &quot;end_date&quot;: &quot;example&quot;, &quot;granularity_band_count&quot;: 1, &quot;measures&quot;: []any{}, &quot;start_date&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const analytics = await client.Analytics().load({ id: &quot;example_id&quot;, app_id: &quot;example&quot;, format: &quot;example&quot; })
+const created = await client.Analytics().create({ app_id: &quot;example&quot;, format: &quot;example&quot;, limit: 1, data_source: &quot;example&quot;, end_date: &quot;example&quot;, granularity_band_count: 1, measures: [], start_date: &quot;example&quot; })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local analytics, err = client:Analytics():load({ id = &quot;example_id&quot;, app_id = &quot;example&quot;, format = &quot;example&quot; })
+local created, err = client:Analytics():create({ app_id = &quot;example&quot;, format = &quot;example&quot;, limit = 1, data_source = &quot;example&quot;, end_date = &quot;example&quot;, granularity_band_count = 1, measures = {}, start_date = &quot;example&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$analytics = $client-&gt;Analytics()-&gt;load([&quot;id&quot; =&gt; &quot;example_id&quot;, &quot;app_id&quot; =&gt; &quot;example&quot;, &quot;format&quot; =&gt; &quot;example&quot;]);
+$created = $client-&gt;Analytics()-&gt;create([&quot;app_id&quot; =&gt; &quot;example&quot;, &quot;format&quot; =&gt; &quot;example&quot;, &quot;limit&quot; =&gt; 1, &quot;data_source&quot; =&gt; &quot;example&quot;, &quot;end_date&quot; =&gt; &quot;example&quot;, &quot;granularity_band_count&quot; =&gt; 1, &quot;measures&quot; =&gt; [], &quot;start_date&quot; =&gt; &quot;example&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">analytics = client.Analytics().load({&quot;id&quot;: &quot;example_id&quot;, &quot;app_id&quot;: &quot;example&quot;, &quot;format&quot;: &quot;example&quot;})
+created = client.Analytics().create({ &quot;app_id&quot;: &quot;example&quot;, &quot;format&quot;: &quot;example&quot;, &quot;limit&quot;: 1, &quot;data_source&quot;: &quot;example&quot;, &quot;end_date&quot;: &quot;example&quot;, &quot;granularity_band_count&quot;: 1, &quot;measures&quot;: [], &quot;start_date&quot;: &quot;example&quot; })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const analytics = await client.Analytics().load({ id: &quot;example_id&quot;, app_id: &quot;example&quot;, format: &quot;example&quot; })
+const created = await client.Analytics().create({ app_id: &quot;example&quot;, format: &quot;example&quot;, limit: 1, data_source: &quot;example&quot;, end_date: &quot;example&quot;, granularity_band_count: 1, measures: [], start_date: &quot;example&quot; })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -129,7 +169,7 @@
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>job_id</code></td>
@@ -147,7 +187,7 @@
 <td><code>ordered</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td>Order of response based on ordered_by value.</td>
+<td>Order of response based on <code>ordered_by</code> value.</td>
 </tr>
 <tr>
 <td><code>ordered_by</code></td>
@@ -199,7 +239,7 @@
 <h4 id="parameters">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
-| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required. |
+| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | <code>app_id</code> | Unique identifier for Branch app of requested data. Either appId or <code>organization_id</code> is required. |
 | <code>limit</code> | <code>query</code> | <code>integer (int32)</code> | Yes | The maximum number of results to return. |
 | <code>format</code> | <code>query</code> | <code>enum: csv, json</code> | Yes | Format of returned data. json or csv |</p>
 <h4 id="request-body">Request body</h4>
@@ -248,7 +288,7 @@
 <td><code>filter</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td>&quot;Keys are same as dimensions. Values are an array of values to match for the dimension. An object defining filters to match or disallow certain values. Example: [&quot;install_activity_touch_data_tilde_campaign&quot;: [&quot;A4G&quot;]]&quot;</td>
+<td>&quot;Keys are same as dimensions. Values are an array of values to match for the dimension. An object defining filters to match or disallow certain values. Example: [&quot;<code>install_activity_touch_data_tilde_campaign</code>&quot;: [&quot;A4G&quot;]]&quot;</td>
 </tr>
 <tr>
 <td><code>filter.app_id</code></td>
@@ -920,7 +960,7 @@
 <td><code>ordered</code></td>
 <td><code>enum: ascending, descending</code></td>
 <td>No</td>
-<td>Order of response based on ordered_by value.</td>
+<td>Order of response based on <code>ordered_by</code> value.</td>
 </tr>
 <tr>
 <td><code>ordered_by</code></td>
@@ -1057,7 +1097,7 @@
 <h4 id="parameters-1">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
-| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | app_id | Unique identifier for Branch app of requested data. Either appId or organization_id is required. |
+| <code>app_id</code> | <code>query</code> | <code>string</code> | Yes | <code>app_id</code> | Unique identifier for Branch app of requested data. Either appId or <code>organization_id</code> is required. |
 | <code>job_id</code> | <code>path</code> | <code>string</code> | Yes | Unique identifier for job. Obtained from POST Export Cohort Analytics API. |
 | <code>format</code> | <code>query</code> | <code>enum: csv, json</code> | Yes | Format of returned data. json or csv |</p>
 <h4 id="responses-1">Responses</h4>

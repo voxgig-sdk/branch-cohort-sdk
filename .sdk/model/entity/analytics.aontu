@@ -1,0 +1,292 @@
+# Entity: analytics
+
+main: kit: entity: analytics: {
+
+  alias: field: {}
+
+  fields: {
+    code: {
+      h: "Code"
+      n: "code"
+      r: false
+      sh: "HTTP code representing the outcome of the status request."
+      t: "`$STRING`"
+    }
+    cumulative: {
+      h: "Cumulative"
+      n: "cumulative"
+      r: false
+      sh: "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value."
+      t: "`$BOOLEAN`"
+    }
+    data_source: {
+      h: "Data Source"
+      n: "data_source"
+      r: true
+      sh: "A string value representing the cohort type"
+      t: "`$STRING`"
+    }
+    dimensions: {
+      h: "Dimensions"
+      n: "dimensions"
+      r: false
+      sh: "An array representing dimension(s) to group by."
+      t: "`$ARRAY`"
+    }
+    enable_install_recalculation: {
+      h: "Enable Install Recalculation"
+      n: "enable_install_recalculation"
+      r: false
+      sh: "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads."
+      t: "`$BOOLEAN`"
+    }
+    end_date: {
+      fo: "date"
+      h: "End Date"
+      n: "end_date"
+      r: true
+      sh: "The end of the interval time range represented as an ISO-8601 complete date."
+      t: "`$STRING`"
+    }
+    error_message: {
+      h: "Error Message"
+      n: "error_message"
+      r: false
+      sh: "Error message if the query failed"
+      t: "`$STRING`"
+    }
+    filter: {
+      h: "Filter"
+      n: "filter"
+      r: false
+      sh: "\"Keys are same as dimensions."
+      t: "`$OBJECT`"
+    }
+    granularity: {
+      h: "Granularity"
+      n: "granularity"
+      r: false
+      sh: "The time granularity that each band value will represent."
+      t: "`$STRING`"
+    }
+    granularity_band_count: {
+      h: "Granularity Band Count"
+      n: "granularity_band_count"
+      r: true
+      sh: "Number of time units since the cohort event to return to the user."
+      t: "`$INTEGER`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    job_id: {
+      h: "Job Id"
+      n: "job_id"
+      r: false
+      sh: "Unique identifier used to retrieve job status and data."
+      t: "`$STRING`"
+    }
+    measures: {
+      h: "Measures"
+      n: "measures"
+      r: true
+      sh: "The cohort measures to return."
+      t: "`$ARRAY`"
+    }
+    ordered: {
+      h: "Ordered"
+      n: "ordered"
+      r: false
+      sh: "Order of response based on ordered_by value."
+      t: "`$STRING`"
+    }
+    ordered_by: {
+      h: "Ordered By"
+      n: "ordered_by"
+      r: false
+      sh: "The dimension used for sorting"
+      t: "`$STRING`"
+    }
+    per_user: {
+      h: "Per User"
+      n: "per_user"
+      r: false
+      sh: "If true, divide each band value by the user count."
+      t: "`$BOOLEAN`"
+    }
+    response_url: {
+      h: "Response Url"
+      n: "response_url"
+      r: false
+      sh: "S3 url for downloading the response data."
+      t: "`$STRING`"
+    }
+    start_date: {
+      fo: "date"
+      h: "Start Date"
+      n: "start_date"
+      r: true
+      sh: "The start of the interval time range represented as an ISO-8601 complete date."
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "Status of the query."
+      t: "`$STRING`"
+    }
+    status_url: {
+      h: "Status Url"
+      n: "status_url"
+      r: false
+      sh: "More information about the subscription's status."
+      t: "`$STRING`"
+    }
+    unique: {
+      h: "Unique"
+      n: "unique"
+      r: false
+      sh: "Whether or not to return unique values."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "analytics"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /analytics"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "app_id"
+                or: "app_id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "csv"
+                k: "query"
+                n: "format"
+                or: "format"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/analytics"
+          q: {
+            exist: [
+              "app_id"
+              "format"
+              "limit"
+            ]
+          }
+          s: [
+            {
+              lit: "analytics"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /analytics/{job_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "0000-XXxx"
+                k: "param"
+                n: "id"
+                or: "job_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "app_id"
+                or: "app_id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "csv"
+                k: "query"
+                n: "format"
+                or: "format"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/analytics/{job_id}"
+          q: {
+            exist: [
+              "app_id"
+              "format"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              job_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "analytics"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

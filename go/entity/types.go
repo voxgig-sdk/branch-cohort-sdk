@@ -1,7 +1,7 @@
 // Typed models for the BranchCohort SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,27 +14,6 @@ import (
 
 // Analytics is the typed data model for the analytics entity.
 type Analytics struct {
-	Code *string `json:"code,omitempty"`
-	Cumulative *bool `json:"cumulative,omitempty"`
-	DataSource string `json:"data_source"`
-	Dimensions *[]any `json:"dimensions,omitempty"`
-	EnableInstallRecalculation *bool `json:"enable_install_recalculation,omitempty"`
-	EndDate string `json:"end_date"`
-	ErrorMessage *string `json:"error_message,omitempty"`
-	Filter *map[string]any `json:"filter,omitempty"`
-	Granularity *string `json:"granularity,omitempty"`
-	GranularityBandCount int `json:"granularity_band_count"`
-	Id *string `json:"id,omitempty"`
-	JobId *string `json:"job_id,omitempty"`
-	Measures []any `json:"measures"`
-	Ordered *string `json:"ordered,omitempty"`
-	OrderedBy *string `json:"ordered_by,omitempty"`
-	PerUser *bool `json:"per_user,omitempty"`
-	ResponseUrl *string `json:"response_url,omitempty"`
-	StartDate string `json:"start_date"`
-	Status *string `json:"status,omitempty"`
-	StatusUrl *string `json:"status_url,omitempty"`
-	Unique *bool `json:"unique,omitempty"`
 }
 
 // AnalyticsLoadMatch is the typed request payload for Analytics.LoadTyped.

@@ -19,19 +19,12 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
         const fi = new fc();
-        // TODO: errors etc
         return fi;
     }
     // False for a feature added at runtime via options.extend (station's
@@ -192,114 +185,135 @@ class Config {
             "fields": [
                 {
                     "name": "code",
-                    "short": "HTTP code representing the outcome of the status request.",
-                    "type": "`$STRING`"
+                    "title": "Code",
+                    "type": "`$STRING`",
+                    "short": "HTTP code representing the outcome of the status request."
                 },
                 {
                     "name": "cumulative",
-                    "short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Cumulative",
+                    "type": "`$BOOLEAN`",
+                    "short": "If true, sum across bands so that a given band value is the sum of all preceding values plus the band value."
                 },
                 {
                     "name": "data_source",
+                    "title": "Data Source",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "A string value representing the cohort type",
-                    "type": "`$STRING`"
+                    "short": "A string value representing the cohort type"
                 },
                 {
                     "name": "dimensions",
-                    "short": "An array representing dimension(s) to group by.",
-                    "type": "`$ARRAY`"
+                    "title": "Dimensions",
+                    "type": "`$ARRAY`",
+                    "short": "An array representing dimension(s) to group by."
                 },
                 {
                     "name": "enable_install_recalculation",
-                    "short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Enable Install Recalculation",
+                    "type": "`$BOOLEAN`",
+                    "short": "If true, then Branch will de-dupe unattributed installs caused by duplicate events from non-opt-in users coming from paid ads."
                 },
                 {
-                    "format": "date",
                     "name": "end_date",
+                    "title": "End Date",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "The end of the interval time range represented as an ISO-8601 complete date.",
-                    "type": "`$STRING`"
+                    "format": "date"
                 },
                 {
                     "name": "error_message",
-                    "short": "Error message if the query failed",
-                    "type": "`$STRING`"
+                    "title": "Error Message",
+                    "type": "`$STRING`",
+                    "short": "Error message if the query failed"
                 },
                 {
                     "name": "filter",
-                    "short": "\"Keys are same as dimensions.",
-                    "type": "`$OBJECT`"
+                    "title": "Filter",
+                    "type": "`$OBJECT`",
+                    "short": "\"Keys are same as dimensions."
                 },
                 {
                     "name": "granularity",
-                    "short": "The time granularity that each band value will represent.",
-                    "type": "`$STRING`"
+                    "title": "Granularity",
+                    "type": "`$STRING`",
+                    "short": "The time granularity that each band value will represent."
                 },
                 {
                     "name": "granularity_band_count",
+                    "title": "Granularity Band Count",
+                    "type": "`$INTEGER`",
                     "req": true,
-                    "short": "Number of time units since the cohort event to return to the user.",
-                    "type": "`$INTEGER`"
+                    "short": "Number of time units since the cohort event to return to the user."
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "job_id",
-                    "short": "Unique identifier used to retrieve job status and data.",
-                    "type": "`$STRING`"
+                    "title": "Job Id",
+                    "type": "`$STRING`",
+                    "short": "Unique identifier used to retrieve job status and data."
                 },
                 {
                     "name": "measures",
+                    "title": "Measures",
+                    "type": "`$ARRAY`",
                     "req": true,
-                    "short": "The cohort measures to return.",
-                    "type": "`$ARRAY`"
+                    "short": "The cohort measures to return."
                 },
                 {
                     "name": "ordered",
-                    "short": "Order of response based on ordered_by value.",
-                    "type": "`$STRING`"
+                    "title": "Ordered",
+                    "type": "`$STRING`",
+                    "short": "Order of response based on ordered_by value."
                 },
                 {
                     "name": "ordered_by",
-                    "short": "The dimension used for sorting",
-                    "type": "`$STRING`"
+                    "title": "Ordered By",
+                    "type": "`$STRING`",
+                    "short": "The dimension used for sorting"
                 },
                 {
                     "name": "per_user",
-                    "short": "If true, divide each band value by the user count.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Per User",
+                    "type": "`$BOOLEAN`",
+                    "short": "If true, divide each band value by the user count."
                 },
                 {
                     "name": "response_url",
-                    "short": "S3 url for downloading the response data.",
-                    "type": "`$STRING`"
+                    "title": "Response Url",
+                    "type": "`$STRING`",
+                    "short": "S3 url for downloading the response data."
                 },
                 {
-                    "format": "date",
                     "name": "start_date",
+                    "title": "Start Date",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "The start of the interval time range represented as an ISO-8601 complete date.",
-                    "type": "`$STRING`"
+                    "format": "date"
                 },
                 {
                     "name": "status",
-                    "short": "Status of the query.",
-                    "type": "`$STRING`"
+                    "title": "Status",
+                    "type": "`$STRING`",
+                    "short": "Status of the query."
                 },
                 {
                     "name": "status_url",
-                    "short": "More information about the subscription's status.",
-                    "type": "`$STRING`"
+                    "title": "Status Url",
+                    "type": "`$STRING`",
+                    "short": "More information about the subscription's status."
                 },
                 {
                     "name": "unique",
-                    "short": "Whether or not to return unique values.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Unique",
+                    "type": "`$BOOLEAN`",
+                    "short": "Whether or not to return unique values."
                 }
             ],
             "id": {
@@ -313,32 +327,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "app_id",
-                                        "orig": "app_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "example": "csv",
-                                        "kind": "query",
-                                        "name": "format",
-                                        "orig": "format",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "limit",
-                                        "orig": "limit",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "POST",
                             "orig": "/analytics",
@@ -347,20 +335,47 @@ class Config {
                                     "lit": "analytics"
                                 }
                             ],
+                            "parts": [
+                                "analytics"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "app_id",
+                                        "orig": "app_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "format",
+                                        "orig": "format",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true,
+                                        "example": "csv"
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "orig": "limit",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "app_id",
                                     "format",
                                     "limit"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "analytics"
-                            ]
+                            }
                         }
                     ]
                 },
@@ -369,43 +384,9 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "0000-XXxx",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "job_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "app_id",
-                                        "orig": "app_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "example": "csv",
-                                        "kind": "query",
-                                        "name": "format",
-                                        "orig": "format",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/analytics/{job_id}",
-                            "rename": {
-                                "param": {
-                                    "job_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "analytics"
@@ -414,21 +395,55 @@ class Config {
                                     "var": "id"
                                 }
                             ],
+                            "parts": [
+                                "analytics",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "job_id": "id"
+                                }
+                            },
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "job_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "0000-XXxx"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "app_id",
+                                        "orig": "app_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "format",
+                                        "orig": "format",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true,
+                                        "example": "csv"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "app_id",
                                     "format",
                                     "id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "analytics",
-                                "{id}"
-                            ]
+                            }
                         }
                     ]
                 }
